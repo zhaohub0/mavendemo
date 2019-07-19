@@ -1,0 +1,127 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  
+  <!-- 项目坐标 -->
+  <!-- cn.gaozhao为组织名，mavendemo为项目名 -->
+  <groupId>cn.gaozhao.mavendemo</groupId>
+  <!-- maven01为项目具体构建或者模块名 -->
+  <artifactId>maven01</artifactId>
+  <!-- 打包方式，此处用打成war包 -->
+  <packaging>war</packaging>
+  <!-- 版本号 -->
+  <version>0.0.1-SNAPSHOT</version>
+  
+  <!-- maven继承。要使用继承，则父工程的打包属性需要设置为pom，继承父工程的pom文件，此时子工程的 groupId和version也可以不写，继承自父类-->
+  <parent>
+ 	<!-- 父pom的坐标 -->
+	<groupId>com.gaozhao.mavendemo</groupId>
+	<artifactId>mavenparent</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+  	
+  	<!-- 父pom的相对路径 -->
+  	<relativePath>../mavenparent/pom.xml</relativePath>
+  </parent>
+  
+  <!-- 聚合。需要项目打包方式定义为父pom时才可以使用，在本项目中执行命令时所有配置聚合的子项目都统一执行命令，
+  		在项目导入时，只要导入该一个项目，所有聚合的子项目都一起被检查，可以同时导入 -->
+  <!-- 
+  <modules>
+  	<module>../mavenparent</module>
+  </modules>
+   -->
+  
+  <name>maven01 Maven Webapp</name>
+  <url>http://maven.apache.org</url>
+  
+  <!-- 版本集中管理 -->
+  <properties>
+  	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  	
+  	<!-- 定义一个版本，标签名可以随自己定义，在依赖中通过$(mysql.version)调用 -->
+  	<mysql.version>5.0.8</mysql.version>
+  	
+  </properties>
+  
+  <!-- 所有依赖包 -->
+  <dependencies>
+  	<!-- 单个依赖 -->
+    <dependency>
+    	<!-- 依赖坐标 -->
+		<groupId>junit</groupId>
+		<artifactId>junit</artifactId>
+		<version>3.8.1</version>
+		
+		<!-- 依赖范围。此处只在测试中有效，如果不写默认为compile（全部的依赖范围），有多种参数compile、provided、runtime、system-->
+		<scope>test</scope>
+		
+		<!-- 可选依赖。当值为true时，这个依赖不会往下个maven项目传递，不写默认为false（可以传递） -->
+		<!-- <optional>true</optional> -->
+		
+		<!-- 排除依赖。如果配置的依赖中还有传递依赖，可以在此处排除具体的传递依赖 -->
+		<!--
+		<exclusions>
+			需要排除传递依赖的坐标
+			<exclusion>
+				<groupId>cn.gaozhao.xxx</groupId>
+			  	<artifactId>yyy</artifactId>
+			</exclusion>
+		</exclusions>
+		 -->
+    </dependency>
+    
+    <!-- 此处继承父pom的依赖，继承父pom定义的版本号 -->
+    <!-- 
+    	父pom中的定义：
+    	<dependencyManagement>
+		  	<dependencies>
+		  		<dependency>
+					<groupId>javax.servlet</groupId>
+					<artifactId>jstl</artifactId>
+					<version>1.2</version>
+				</dependency>
+		  	</dependencies>
+		  </dependencyManagement>
+     -->
+    <dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+	</dependency>
+	
+	<!-- 此依赖的版本号引用上面properties中的定义 -->
+	<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>${mysql.version}</version>
+	</dependency>
+  </dependencies>
+  
+  <!-- 构建 -->
+  <build>
+    <finalName>maven01</finalName>
+    
+    <!-- maven插件。 -->
+    <plugins>
+    	<!-- 定义一个maven插件 （在执行maven的时候，在每个maven生命周期都会执行一个或多个maven插件）-->
+    	<plugin>
+    		<!-- 插件坐标 -->
+    		<groupId>org.apache.maven.plugins</groupId>
+    		<artifactId>maven-source-plugin</artifactId>
+    		<version>2.2.1</version>
+    		<!-- 要使用的一些该插件命令 -->
+    		<executions>
+    			<execution>
+    				<!-- maven生命周期的一个阶段执行执行该命令，此处在项目打包时自动执行该插件 -->
+    				<phase>package</phase>
+    				<!-- 执行的目标（命令） -->
+    				<goals>
+    					<!-- 该命令是源码打包命令，打包的是java文件 -->
+    					<goal>jar-no-fork</goal>
+    				</goals>
+    			</execution>
+    		</executions>
+    	</plugin>
+    </plugins>
+  </build>
+  
+</project>
