@@ -50,7 +50,7 @@
     	<!-- 依赖坐标 -->
 		<groupId>junit</groupId>
 		<artifactId>junit</artifactId>
-		<version>3.8.1</version>
+		<version>4.13.1</version>
 		
 		<!-- 依赖范围。此处只在测试中有效，如果不写默认为compile（全部的依赖范围），有多种参数compile、provided、runtime、system-->
 		<scope>test</scope>
