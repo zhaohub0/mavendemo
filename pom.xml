@@ -39,7 +39,7 @@
   	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   	
   	<!-- 定义一个版本，标签名可以随自己定义，在依赖中通过$(mysql.version)调用 -->
-  	<mysql.version>5.0.8</mysql.version>
+  	<mysql.version>8.0.28</mysql.version>
   	
   </properties>
   
